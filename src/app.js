@@ -20,13 +20,8 @@ import passport from "passport";
 
 const app = express();
 
-
-app.use(express.json());
+  app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(express.static(`${__dirname}/public`));
-  app.use(morgan("dev"));
-  initializePassport();
-  app.use(passport.session)
   app.use(
     session({
       store: MongoStore.create({
@@ -38,6 +33,11 @@ app.use(express.json());
       secret: "asdf123%%",
     })
   );
+
+  initializePassport();
+  app.use(express.static(`${__dirname}/public`));
+  app.use(passport.session());
+  app.use(morgan("dev"));
 
 // Settings
 app.engine("handlebars", handlebars.engine());
